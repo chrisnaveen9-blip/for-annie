@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine 💖</title>
+
+<!-- Romantic Fonts (Part 3) -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+/* =========================
+   PART 1 (UNCHANGED)
+   ========================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#ff8fb1,#ff4f81,#ff6fa5);
+}
+
+/* FLOATING HEARTS (PART 1) */
+.heart{
+  position:absolute;
+  font-size:24px;
+  animation:floatUp linear infinite;
+  opacity:0.7;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(100vh);opacity:0;}
+  30%{opacity:1;}
+  to{transform:translateY(-10vh);opacity:0;}
+}
+
+/* ENTRY */
+#entry{
+  position:absolute;
+  text-align:center;
+  color:white;
+  z-index:5;
+}
+
+#entry h1{
+  font-size:48px;
+  margin-bottom:30px;
+  animation:heartbeat 1.6s infinite;
+  text-shadow:0 0 25px rgba(255,255,255,0.6);
+}
+
+@keyframes heartbeat{
+  0%{transform:scale(1);}
+  25%{transform:scale(1.05);}
+  40%{transform:scale(0.98);}
+  60%{transform:scale(1.07);}
+  100%{transform:scale(1);}
+}
+
+.btn{
+  padding:15px 36px;
+  border:none;
+  border-radius:40px;
+  background:white;
+  color:#ff4081;
+  font-size:18px;
+  margin:12px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+.btn:hover{
+  transform:scale(1.15);
+  background:#ff4081;
+  color:white;
+}
+
+/* VIDEO (UNCHANGED) */
+#videoContainer{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(to bottom,#7fd8ff,#1c7ed6);
+  overflow:hidden;
+  z-index:6;
+}
+
+#video{
+  height:85vh;
+  width:auto;
+  border-radius:20px;
+  box-shadow:0 25px 80px rgba(0,0,0,0.5);
+  transition:all 1.2s ease;
+  object-fit:contain;
+}
+
+.fullscreen{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:100vh !important;
+  height:100vw !important;
+  object-fit:cover !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  transform:translate(-50%,-50%) rotate(-90deg);
+}
+
+/* ============================= */
+/* ✨ CUTER QUIZ POPUP ✨ */
+/* ============================= */
+
+#quizPopup{
+  position:absolute;
+  display:none;
+  width:460px;
+  padding:50px 40px;
+  background:linear-gradient(145deg,#ffffff,#ffe6f1);
+  border-radius:35px;
+  text-align:center;
+  transform:scale(0);
+  transition:0.6s ease;
+  z-index:10;
+  box-shadow:
+    0 20px 60px rgba(255,105,180,0.5),
+    inset 0 0 25px rgba(255,192,203,0.4);
+}
+
+#quizPopup.active{
+  transform:scale(1);
+}
+
+/* subtle sparkle glow */
+#quizPopup::before{
+  content:"✨ 💖 ✨";
+  position:absolute;
+  top:-18px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:22px;
+  animation:sparkle 2s infinite alternate;
+}
+
+@keyframes sparkle{
+  from{opacity:0.6;}
+  to{opacity:1;}
+}
+
+.quizTitle{
+  font-size:34px;
+  font-weight:bold;
+  color:#ff2f6d;
+  margin-bottom:25px;
+  letter-spacing:1px;
+  text-shadow:0 0 12px rgba(255,105,180,0.6);
+}
+
+/* floating tiny hearts inside popup */
+.popupHearts{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.popupHearts span{
+  position:absolute;
+  font-size:18px;
+  animation:floatMini 4s infinite ease-in-out;
+  opacity:0.6;
+}
+
+@keyframes floatMini{
+  0%{transform:translateY(0px);}
+  50%{transform:translateY(-8px);}
+  100%{transform:translateY(0px);}
+}
+
+.playBtn{
+  padding:16px 40px;
+  border:none;
+  border-radius:40px;
+  background:linear-gradient(135deg,#ff4f81,#ff2f6d);
+  color:white;
+  cursor:pointer;
+  font-size:17px;
+  font-weight:bold;
+  transition:0.3s;
+  box-shadow:0 8px 25px rgba(255,47,109,0.4);
+}
+
+.playBtn:hover{
+  transform:scale(1.12);
+  box-shadow:0 12px 35px rgba(255,47,109,0.6);
+}
+
+/* RULES MODAL */
+#rulesModal{
+  position:absolute;
+  display:none;
+  width:420px;
+  padding:40px;
+  background:white;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  z-index:20;
+  transform:scale(0);
+  transition:0.5s ease;
+}
+
+#rulesModal.active{
+  transform:scale(1);
+}
+
+#rulesModal h3{
+  margin-bottom:20px;
+  color:#ff4081;
+}
+
+#rulesModal ul{
+  list-style:none;
+  color:#555;
+  font-size:15px;
+  line-height:1.8;
+}
+
+.startQuizBtn{
+  margin-top:25px;
+  padding:12px 28px;
+  border:none;
+  border-radius:30px;
+  background:#ff4081;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+/* =========================
+   PART 2 (FULL) — SCOPED
+   ========================= */
+:root{
+  --bg1:#ffd6e8;
+  --bg2:#d9f5ff;
+  --card:#ffffffcc;
+  --text:#1f2430;
+  --muted:#6b7280;
+  --good:#16a34a;
+  --bad:#ef4444;
+  --shadow: 0 18px 60px rgba(0,0,0,.12);
+  --radius: 22px;
+}
+
+/* Screen wrapper for quiz (so Part 2 body styles don't override Part 1) */
+#quizScreen{
+  position:absolute;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:
+    radial-gradient(1200px 600px at 15% 20%, var(--bg2), transparent 60%),
+    radial-gradient(900px 500px at 80% 10%, #fff2b8, transparent 60%),
+    radial-gradient(900px 600px at 70% 85%, var(--bg1), transparent 60%),
+    #fff;
+  overflow:hidden;
+  z-index:30;
+  font-family: ui-sans-serif, system-ui;
+}
+
+/* Part 2 floating hearts — renamed to avoid collision with Part 1 .heart */
+.qheart{
+  position:absolute;
+  width:14px;height:14px;
+  transform:rotate(45deg);
+  background:rgba(255,0,100,.18);
+  border-radius:4px;
+  animation: qfloatUp linear infinite;
+}
+.qheart:before,.qheart:after{
+  content:"";
+  position:absolute;
+  width:14px;height:14px;
+  background:inherit;
+  border-radius:50%;
+}
+.qheart:before{ left:-7px; top:0; }
+.qheart:after{ top:-7px; left:0; }
+
+@keyframes qfloatUp{
+  from{ transform:translateY(30vh) rotate(45deg); opacity:.0; }
+  20%{opacity:.9}
+  to{ transform:translateY(-120vh) rotate(45deg); opacity:0; }
+}
+
+/* layout */
+.wrap{
+  width:min(980px,100%);
+  display:grid;
+  grid-template-columns:1.3fr .9fr;
+  gap:18px;
+}
+
+/* card */
+.card{
+  background:var(--card);
+  backdrop-filter:blur(10px);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:22px;
+  position:relative;
+}
+
+/* quiz */
+.title{
+  font-size:26px;
+  font-weight:800;
+}
+
+.q{
+  margin-top:14px;
+  font-size:18px;
+  font-weight:700;
+}
+
+.options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:14px;
+}
+
+.opt{
+  padding:14px;
+  border-radius:18px;
+  border:1px solid #e5e7eb;
+  cursor:pointer;
+  background:white;
+  transition:.15s;
+}
+.opt:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+
+.status{
+  margin-top:14px;
+  min-height:60px;
+}
+
+.ok{
+  display:none;
+  padding:12px;
+  border-radius:14px;
+  background:rgba(22,163,74,.1);
+  border:1px solid rgba(22,163,74,.3);
+}
+
+.hint{
+  display:none;
+  padding:12px;
+  border-radius:14px;
+  background:rgba(239,68,68,.1);
+  border:1px solid rgba(239,68,68,.3);
+}
+
+.btn2{
+  margin-top:12px;
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid #e5e7eb;
+  background:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* LOVE METER PANEL */
+.lovePanel{
+  background:var(--card);
+  backdrop-filter:blur(10px);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.loveTitle{
+  font-weight:800;
+  font-size:18px;
+}
+
+.hearts{
+  font-size:26px;
+  letter-spacing:4px;
+}
+
+.streakBox{
+  padding:14px;
+  border-radius:18px;
+  background:rgba(255,255,255,.8);
+  border:1px solid #eee;
+  font-size:14px;
+}
+
+.streakNumber{
+  font-size:22px;
+  font-weight:800;
+}
+
+.loveMessage{
+  font-size:14px;
+  color:var(--muted);
+  margin-top:8px;
+}
+
+/* Part 2 glow class renamed to avoid collision with Part 3 .glow (text glow) */
+.panelGlow{
+  animation:glowPulse .6s ease;
+}
+@keyframes glowPulse{
+  0%{box-shadow:0 0 0 rgba(255,0,120,.0)}
+  50%{box-shadow:0 0 40px rgba(255,0,120,.4)}
+  100%{box-shadow:0 0 0 rgba(255,0,120,.0)}
+}
+
+.confetti{
+  position:absolute;
+  font-size:18px;
+  animation:fall 1s ease forwards;
+}
+@keyframes fall{
+  0%{transform:translateY(-20px);opacity:1}
+  100%{transform:translateY(200px);opacity:0}
+}
+
+@media(max-width:900px){
+  .wrap{grid-template-columns:1fr;}
+  .options{grid-template-columns:1fr;}
+}
+
+/* End screen message inside quiz */
+#quizEndMessage{
+  display:none;
+  font-family: ui-sans-serif, system-ui;
+  font-size:42px;
+  font-weight:800;
+  color:#1f2430;
+  text-align:center;
+  padding:30px;
+}
+
+/* =========================
+   PART 3 (FULL) — FINAL SCREEN
+   ========================= */
+#finalScreen{
+  position:absolute;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(-45deg,#ffd6e8,#ffc2e0,#f9b4d0,#ffd6e8);
+  background-size:400% 400%;
+  animation:finalGradient 15s ease infinite;
+  overflow:hidden;
+  z-index:50;
+}
+
+@keyframes finalGradient{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* Background Heart */
+.final-bg-heart{
+  position:absolute;
+  font-size:220px;
+  color:rgba(255,105,180,.06);
+  animation:finalHeartbeat 4s ease-in-out infinite;
+  z-index:0;
+}
+
+@keyframes finalHeartbeat{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.15);}
+  100%{transform:scale(1);}
+}
+
+/* Content */
+.finalContent{
+  width:min(750px,90%);
+  position:relative;
+  z-index:5;
+  text-align:center;
+  color:#3a2a35;
+}
+
+.finalTitle{
+  font-family:'Great Vibes',cursive;
+  font-size:58px;
+  margin-bottom:30px;
+  opacity:0;
+}
+
+#finalMessage{
+  font-family:'Cormorant Garamond',serif;
+  font-size:23px;
+  line-height:2.1;
+  white-space:pre-line;
+  opacity:0;
+  transform:translateY(20px);
+}
+
+/* Fade Up */
+.finalFadeUp{
+  animation:finalFadeUp 2s ease forwards;
+}
+
+@keyframes finalFadeUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* Glow (Part 3 text glow) */
+.glow{
+  color:#fff;
+  text-shadow:
+    0 0 10px rgba(255,255,255,.9),
+    0 0 25px rgba(255,182,193,.8),
+    0 0 40px rgba(255,105,180,.6);
+}
+
+/* Floating Images */
+.finalSticker{
+  position:absolute;
+  width:90px;
+  border-radius:18px;
+  box-shadow:0 15px 35px rgba(0,0,0,.2);
+  animation:finalFloatUp 20s linear infinite;
+  opacity:0;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.finalSticker:hover{
+  transform:scale(1.15);
+}
+
+@keyframes finalFloatUp{
+  0%{
+    transform:translateY(100vh) rotate(-10deg);
+    opacity:0;
+  }
+  10%{opacity:1;}
+  90%{opacity:1;}
+  100%{
+    transform:translateY(-120vh) rotate(10deg);
+    opacity:0;
+  }
+}
+
+/* MODAL (Part 3) */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:60;
+}
+
+.modal img{
+  max-width:85%;
+  max-height:85%;
+  border-radius:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+</style>
+</head>
+
+<body>
+
+<!-- PART 1: Entry -->
+<div id="entry">
+  <h1>Will you be my Valentine? 💖</h1>
+  <button class="btn" onclick="startVideo()">YES</button>
+  <button class="btn" onclick="startVideo()">YES 😌</button>
+</div>
+
+<!-- PART 1: Video -->
+<div id="videoContainer">
+  <video id="video" src="valentine.mp4" playsinline></video>
+</div>
+
+<!-- PART 1: Quiz Popup -->
+<div id="quizPopup">
+  <div class="popupHearts">
+    <span style="top:15%; left:15%;">💖</span>
+    <span style="top:20%; right:20%;">💕</span>
+    <span style="bottom:25%; left:20%;">✨</span>
+    <span style="bottom:20%; right:15%;">💘</span>
+  </div>
+
+  <div class="quizTitle">TRIVIA QUIZ 💝</div>
+  <button class="playBtn" onclick="openRules()">LET'S PLAY</button>
+</div>
+
+<!-- PART 1: Rules -->
+<div id="rulesModal">
+  <h3>Rules 🤗</h3>
+  <ul>
+    <li>• Unlimited retries</li>
+    <li>• Wrong answer → hint shows</li>
+  </ul>
+  <button class="startQuizBtn" onclick="startQuiz()">START QUIZ 💖</button>
+</div>
+
+<!-- PART 2: Quiz Screen -->
+<div id="quizScreen">
+  <div class="wrap" id="quizWrap">
+
+    <div class="card" id="quizCard">
+      <div class="title">A tiny quiz for you ✨</div>
+      <div class="q" id="question"></div>
+      <div class="options" id="options"></div>
+      <div class="status">
+        <div class="hint" id="hint"></div>
+        <div class="ok" id="ok"></div>
+      </div>
+      <button class="btn2" id="nextBtn" disabled>Next ➜</button>
+    </div>
+
+    <div class="lovePanel" id="lovePanel">
+      <div class="loveTitle">❤️ Love Meter</div>
+      <div class="hearts" id="heartMeter">🤍🤍🤍🤍🤍</div>
+
+      <div class="streakBox">
+        <div class="streakNumber" id="streak">0</div>
+        <div>You better get this right hahaha 😌</div>
+        <div class="loveMessage" id="loveMessage">
+          I’m watching closely 👀💖
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="quizEndMessage">You got everything right 😭❤️</div>
+</div>
+
+<!-- PART 3: Final Screen -->
+<div id="finalScreen">
+  <div class="final-bg-heart">💖</div>
+
+  <div class="finalContent">
+    <h1 class="finalTitle" id="finalTitle">Happy Valentine’s Day ❤️</h1>
+    <div id="finalMessage"></div>
+  </div>
+</div>
+
+<!-- PART 3: Modal -->
+<div class="modal" id="modal" onclick="closeModal()">
+  <img id="modalImg" alt="">
+</div>
+
+<script>
+/* =========================
+   PART 1 HEARTS (UNCHANGED)
+   ========================= */
+for(let i=0;i<25;i++){
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML=["💖","💕","💘","💞","💓","✨"][Math.floor(Math.random()*6)];
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=(4+Math.random()*6)+"s";
+  heart.style.fontSize=(18+Math.random()*30)+"px";
+  document.body.appendChild(heart);
+}
+
+/* =========================
+   PART 1 JS (UNCHANGED)
+   ========================= */
+const entry = document.getElementById("entry");
+const videoContainer = document.getElementById("videoContainer");
+const video = document.getElementById("video");
+const popup = document.getElementById("quizPopup");
+const rules = document.getElementById("rulesModal");
+
+let popupShown = false;
+
+function startVideo(){
+  entry.style.display = "none";
+  videoContainer.style.display = "flex";
+
+  video.playbackRate = 0.75;
+  video.play();
+
+  setTimeout(()=>{
+    video.classList.add("fullscreen");
+  }, 2800);
+
+  video.addEventListener("timeupdate", ()=>{
+    if(!popupShown && video.duration && (video.duration - video.currentTime < 1.8)){
+      popupShown = true;
+      popup.style.display = "block";
+      setTimeout(()=> popup.classList.add("active"), 80);
+    }
+  });
+}
+
+function openRules(){
+  rules.style.display="block";
+  setTimeout(()=> rules.classList.add("active"),50);
+}
+
+function startQuiz(){
+  rules.style.display="none";
+  popup.style.display="none";
+  videoContainer.style.display="none";
+
+  const quizScreen = document.getElementById("quizScreen");
+  quizScreen.style.display="flex";
+
+  // spawn Part 2 hearts once when quiz starts
+  if(!window.__quizHeartsSpawned){
+    window.__quizHeartsSpawned = true;
+    for(let i=0;i<14;i++){
+      const h=document.createElement("div");
+      h.className="qheart";
+      h.style.left=Math.random()*100+"vw";
+      h.style.animationDuration=(8+Math.random()*8)+"s";
+      quizScreen.appendChild(h);
+    }
+  }
+}
+
+/* =========================
+   PART 2 JS (FULL) — UNCHANGED LOGIC
+   (only class rename: glow -> panelGlow)
+   ========================= */
+const quiz=[
+{
+q:"Where did we first kiss?",
+hint:"Hint: (kiss on the cheek)",
+options:["My house","In The Classroom","Princy's Cousins house","Lasya's House"],
+a:1
+},
+{
+q:"How did I realize that you were the one for me?",
+hint:"Hint: (Rea\"lize\")",
+options:["Because you are kind","I saw the love in your eyes","Max peed on you","After talking with your mom"],
+a:1
+},
+{
+q:"Guess my main gmail account password😌",
+hint:"Hint: (anni--meh)",
+options:["Naruhina1218","ilikecountrymusic","romasfood18","Extramoney18"],
+a:0
+},
+{
+q:"Cute thing we did before I left?",
+hint:"Hint: (Colourful)",
+options:["Cuddles","Went on a date","Played dragon city","Thumb Love art"],
+a:3
+},
+{
+q:"Valentine’s Day theatre — who came with me?",
+hint:"Hint: (big forehead)",
+options:["Jitin","Kenneth","Edward","Jitesh"],
+a:1
+}
+];
+
+const messages=[
+"haha little tricky one but you got it right , love you ❤️",
+"very good lets goo , love you 😌",
+"kinda stole it from ya lol 😏",
+"you made me do it but im so glad we did it 💞",
+"aa batta gan tho ochina such a great day that was hahah 😭❤️"
+];
+
+let idx=0;
+let streak=0;
+
+const qEl=document.getElementById("question");
+const optionsEl=document.getElementById("options");
+const hintEl=document.getElementById("hint");
+const okEl=document.getElementById("ok");
+const nextBtn=document.getElementById("nextBtn");
+const heartMeter=document.getElementById("heartMeter");
+const streakEl=document.getElementById("streak");
+const loveMessage=document.getElementById("loveMessage");
+const lovePanel=document.getElementById("lovePanel");
+
+function render(){
+nextBtn.disabled=true;
+hintEl.style.display="none";
+okEl.style.display="none";
+qEl.textContent=quiz[idx].q;
+optionsEl.innerHTML="";
+quiz[idx].options.forEach((opt,i)=>{
+const b=document.createElement("div");
+b.className="opt";
+b.textContent=opt;
+b.onclick=()=>choose(i);
+optionsEl.appendChild(b);
+});
+}
+
+function choose(i){
+if(i===quiz[idx].a){
+streak++;
+streakEl.textContent=streak;
+loveMessage.textContent=messages[idx];
+okEl.textContent="Correctttt 😌❤️";
+okEl.style.display="block";
+nextBtn.disabled=false;
+updateHearts();
+flash();
+}else{
+hintEl.textContent=quiz[idx].hint;
+hintEl.style.display="block";
+}
+}
+
+function updateHearts(){
+let filled="❤️".repeat(streak);
+let empty="🤍".repeat(5-streak);
+heartMeter.textContent=filled+empty;
+}
+
+function flash(){
+lovePanel.classList.add("panelGlow");
+for(let i=0;i<10;i++){
+const c=document.createElement("div");
+c.className="confetti";
+c.textContent=["💖","✨","💕"][Math.floor(Math.random()*3)];
+c.style.left=Math.random()*80+"%";
+lovePanel.appendChild(c);
+setTimeout(()=>c.remove(),1000);
+}
+setTimeout(()=>lovePanel.classList.remove("panelGlow"),600);
+}
+
+nextBtn.onclick=()=>{
+idx++;
+if(idx>=quiz.length){
+  // Show end message briefly, then transition to final screen
+  document.getElementById("quizWrap").style.display="none";
+  document.getElementById("quizEndMessage").style.display="block";
+
+  setTimeout(()=>{
+    document.getElementById("quizScreen").style.display="none";
+    showFinalScreen();
+  }, 1600);
+}else{
+render();
+}
+};
+
+render();
+
+/* =========================
+   PART 3 JS (FULL)
+   ========================= */
+let finalMessageShown = false;
+
+const finalMessage = `
+Happy Valentine’s Day baby,
+
+I have never done anything nice on this day for you…
+I really hope you liked this.
+
+Honestly thank you for being there,
+for bearing with me and my chaos.
+
+I say I’m not good enough…
+and yet you love me the same way.
+Actually — your love grows more.
+
+<span class="glow">You are goated.</span>
+<span class="glow">Best girl. No debate.</span>
+
+From writing Bruno Mars lyrics
+(even though it was me trying to patch up 😭)
+to writing this for you…
+
+we’ve come a long way.
+And it’s still just the beginning.
+
+<span class="glow" style="font-size:30px;">I love you so much.</span>
+`;
+
+function showFinalScreen(){
+  const screen = document.getElementById("finalScreen");
+  screen.style.display="flex";
+
+  // Spawn floating images once
+  if(!window.__finalImagesSpawned){
+    window.__finalImagesSpawned = true;
+
+    for(let i=1;i<=10;i++){
+      const img=document.createElement("img");
+      img.src=`image${i}.jpeg`;
+      img.className="finalSticker";
+      img.style.left=Math.random()*90+"vw";
+      img.style.animationDelay=(Math.random()*10)+"s";
+
+      img.onclick=()=>{
+        revealFinalMessage();
+        openModal(img.src);
+      };
+
+      screen.appendChild(img);
+    }
+  }
+}
+
+function revealFinalMessage(){
+  if(finalMessageShown) return;
+  finalMessageShown = true;
+
+  const title = document.getElementById("finalTitle");
+  const msg = document.getElementById("finalMessage");
+
+  title.classList.add("finalFadeUp");
+  msg.innerHTML = finalMessage;
+
+  setTimeout(()=>{
+    msg.classList.add("finalFadeUp");
+  }, 500);
+}
+
+/* MODAL */
+function openModal(src){
+  document.getElementById("modal").style.display="flex";
+  document.getElementById("modalImg").src=src;
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+</script>
+
+</body>
+</html>
